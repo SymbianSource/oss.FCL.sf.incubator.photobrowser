@@ -1,0 +1,132 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+//#include <domain/osextensions/platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+
+//#define USE_TACTILE_FEEDBACK		// disable for S60 3.2 when compiled in 5.0
+#ifdef USE_TACTILE_FEEDBACK
+#ifdef __S60_50__
+LIBRARY     touchfeedback.lib
+macro USE_AVKON_TACTILE_FEEDBACK
+#endif // __S60_50__
+#endif // USE_TACTILE_FEEDBACK
+
+#include "UidList.txt"
+
+TARGET  		PhotoBrowser.exe
+TARGETTYPE  	exe
+UID  			0xE00039CE Imagic_UID3
+
+EPOCSTACKSIZE	0x14000
+EPOCHEAPSIZE	0x40000		0x8000000
+
+LANG			SC
+#ifdef TUBE_PR1
+CAPABILITY		UserEnvironment ReadDeviceData ReadUserData WriteUserData LocalServices
+#else
+CAPABILITY		UserEnvironment ReadUserData WriteUserData LocalServices
+#endif
+VENDORID		0
+
+SOURCEPATH 		..\AppSrc
+SOURCE			Imagic.cpp
+SOURCE  		ImagicApp.cpp 
+SOURCE  		ImagicAppUi.cpp
+SOURCE  		ImagicDocument.cpp
+SOURCE 			ImagicViewBrowser.cpp
+SOURCE			ImagicContainerBrowser.cpp
+SOURCE 			glfont2.cpp 
+SOURCE 			TextureLoader.cpp
+SOURCE			../Common/src/ImagicUtils.cpp Gesture.cpp project.cpp DrawableInterface.cpp DrawUtility.cpp CDrawGrid.cpp CDrawOneByOne.cpp CDrawFaceBrowsing.cpp CDrawMagGlass.cpp SendImageFile.cpp 
+
+
+
+SOURCEPATH		..\data
+START RESOURCE PhotoBrowser.rss
+HEADER
+TARGETPATH 		resource\apps
+END //RESOURCE
+
+START RESOURCE    PhotoBrowser_reg.rss
+#ifdef WINSCW
+TARGETPATH 		\private\10003a3f\apps
+#else
+TARGETPATH 	  \private\10003a3f\import\apps
+#endif
+END //RESOURCE
+
+USERINCLUDE  	..\AppInc
+USERINCLUDE     ..\common\inc
+USERINCLUDE     ..\EngInc  ..\Appinc
+
+SYSTEMINCLUDE   . \epoc32\include
+//SYSTEMINCLUDE   . \epoc32\include\oem\uiacceltk
+
+// new S60 5.0 header include path
+#if 0
+MW_LAYER_SYSTEMINCLUDE
+#endif
+SYSTEMINCLUDE /epoc32/include /epoc32/include/oem /epoc32/include/middleware /epoc32/include/domain/middleware /epoc32/include/osextensions /epoc32/include/domain/osextensions/loc /epoc32/include/domain/middleware/loc /epoc32/include/domain/osextensions/loc/sc /epoc32/include/domain/middleware/loc/sc \epoc32\include\applications
+
+LIBRARY 		euser.lib apparc.lib cone.lib eikcore.lib 
+LIBRARY 		eikcoctl.lib avkon.lib PbkView.lib hal.lib
+LIBRARY     	fbscli.lib
+LIBRARY  		bitmaptransforms.lib
+LIBRARY			imageconversion.lib
+LIBRARY     	efsrv.lib
+
+//Image Editor Engine
+LIBRARY			IEEngine.lib
+LIBRARY			IEUtils.lib
+LIBRARY	 		gdi.lib 
+
+LIBRARY         commonengine.lib
+LIBRARY         estor.lib
+LIBRARY         eikdlg.lib
+LIBRARY         libgles_cm.lib
+LIBRARY         ws32.lib
+LIBRARY 		bafl.lib 
+LIBRARY         ExifLib.lib 
+LIBRARY			apgrfx.lib
+LIBRARY			hlplch.lib 
+
+
+
+//ARMFPU vfpv2   		// To use vector floating-point.  default was softvfp
+//ALWAYS_BUILD_AS_ARM // build this project using ARM instruction set
+//OPTION_REPLACE ARMCC --arm -O3 -Otime --cpu 6 --fpu VFPv2 --fpmode fast
+
+
+// For BT Sending.  Some of them may not be needed 
+LIBRARY           irobex.lib
+LIBRARY           esock.lib
+LIBRARY           bluetooth.lib
+LIBRARY           btextnotifiers.lib
+LIBRARY           btmanclient.LIB
+LIBRARY           sdpagent.LIB
+LIBRARY           sdpdatabase.LIB
+LIBRARY           CommonDialogs.lib //File selection
+LIBRARY           commonui.lib //CDocumentHandler
+LIBRARY           apmime.lib //TDatatype
+LIBRARY           sendui.lib 
+LIBRARY 	      oommonitor.lib
+////////////
+
+
+
+EXPORTUNFROZEN
+

@@ -1,0 +1,60 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+// BLD.INF
+// Component description file
+//
+
+PRJ_PLATFORMS
+default
+
+PRJ_EXPORTS
+
+#ifdef __WINS__
+..\gfx\smile.mbm      \epoc32\data\smile.mbm
+..\gfx\zoom.mbm       \epoc32\data\zoom.mbm
+..\gfx\loading.mbm       \epoc32\data\loading.mbm
+..\gfx\shadow.mbm       \epoc32\data\shadow.mbm
+..\gfx\exit.mbm       \epoc32\data\exit.mbm
+..\gfx\menu.mbm       \epoc32\data\menu.mbm
+#else
+..\gfx\smile.mbm      \epoc32\data\z\resource\apps\smile.mbm
+..\gfx\zoom.mbm       \epoc32\data\z\resource\apps\zoom.mbm
+..\gfx\loading.mbm    \epoc32\data\z\resource\apps\loading.mbm
+..\gfx\shadow.mbm    \epoc32\data\z\resource\apps\shadow.mbm
+..\gfx\exit.mbm    \epoc32\data\z\resource\apps\exit.mbm
+..\gfx\menu.mbm    \epoc32\data\z\resource\apps\menu.mbm
+#endif
+
+..\IEBgps\inc\IEBgpsInfo.h      \epoc32\include\IEBgpsInfo.h
+
+..\IEBgpClient\inc\IEImageProcessing.h		\epoc32\include\IEImageProcessing.h
+
+..\EngInc\IEEngine.h		\epoc32\include\IEEngine.h
+..\EngInc\IEImage.h		\epoc32\include\IEImage.h
+
+
+PRJ_MMPFILES
+
+IEUtils.mmp
+..\IEBgps\group\IEBgps.mmp
+..\IEBgpClient\group\IEBgpClient.mmp
+IEEngine.mmp
+Imagic.mmp
+//IESensorProxy.mmp
+gnumakefile Icons_scalable_dc.mk
+

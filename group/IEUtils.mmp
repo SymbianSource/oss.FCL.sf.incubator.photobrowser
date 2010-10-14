@@ -1,0 +1,72 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+#include "UidList.txt"
+
+TARGET        IEUtils.dll
+TARGETTYPE    dll
+UID           0xE000008d IEUtils_UID3
+
+#ifdef TUBE_PR1
+CAPABILITY		UserEnvironment ReadDeviceData ReadUserData WriteUserData LocalServices
+#else
+CAPABILITY		UserEnvironment ReadUserData WriteUserData LocalServices
+#endif
+
+//VENDORID 0x70000001
+VENDORID 0
+
+EPOCHEAPSIZE 0x10000	0x5000000
+
+SOURCEPATH   	..\Common\src
+SOURCE        IEEngineUtils.cpp
+SOURCE 			  IEImageData.cpp
+
+USERINCLUDE   ..\Common\inc
+SYSTEMINCLUDE \epoc32\include
+SYSTEMINCLUDE \epoc32\include\internal 
+SYSTEMINCLUDE \epoc32\include\icl
+
+//#include <domain/osextensions/platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+
+// new S60 5.0 header include path
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY       euser.lib
+LIBRARY       efsrv.lib
+LIBRARY			  fbscli.lib
+LIBRARY			  imageconversion.lib
+//LIBRARY			  IclExtJpegApi.lib
+//LIBRARY			  exifutility.lib
+//LIBRARY			  jpegexifplugin.lib 
+LIBRARY				cone.lib 
+
+//STATICLIBRARY     idlimageprocessing.lib
+//LIBRARY         	libc.lib
+
+LIBRARY 			PlatformEnv.lib // platform environment, paths
+LIBRARY 			bitgdi.lib
+LIBRARY 			CommonEngine.lib
+LIBRARY 			eikcore.lib
+LIBRARY 			BitmapTransforms.lib
+LIBRARY 			bafl.lib 
+LIBRARY 			hal.lib
+LIBRARY 			exiflib.lib
+
+nostrictdef
+
+EXPORTUNFROZEN

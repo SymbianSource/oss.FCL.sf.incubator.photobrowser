@@ -1,0 +1,60 @@
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors: Juha Kauppinen, Mika Hokkanen
+; 
+; Description: Photo Browser
+
+; Imagic_armv5.pkg
+;
+;Language - standard language definitions
+&EN 
+
+; standard SIS file header
+; protected
+;#{"Photo Browser" },(0x2002134F),0,9,5
+; un-protected
+#{"Photo Browser" },(0xE0008FBD),0,9,5
+
+;Localised Vendor name
+%{"Nokia"}
+
+;Unique Vendor name
+:"Nokia"
+
+"eusa_imagic.txt"-"", FT, TA
+
+;Supports S60 3.1 - 5.0
+;[0x101F7961], 0, 0, 0, {"Series60ProductID"}	; 3.0
+;[0x102032BE], 0, 0, 0, {"Series60ProductID"}	; 3.1
+[0x102752AE], 0, 0, 0, {"Series60ProductID"}	; 3.2
+[0x1028315F], 0, 0, 0, {"Series60ProductID"}	; 5.0
+
+
+;@"glib.sis", (0x200110cc)
+;@"stdioserver_s60_1_3_SS.SIS", (0x20009aa2)
+;@"pips_nokia_1_3_SS.sis", (0x20013851)
+
+
+;Application and engine
+"$(EPOCROOT)epoc32\release\armv5\urel\PhotoBrowser.exe" 		            -"!:\sys\bin\PhotoBrowser.exe"
+"$(EPOCROOT)epoc32\data\z\resource\apps\PhotoBrowser.rsc" 						-"!:\resource\apps\PhotoBrowser.rsc"
+"$(EPOCROOT)epoc32\data\z\private\10003a3f\import\apps\PhotoBrowser_reg.rsc" 	-"!:\private\10003a3f\import\apps\PhotoBrowser_reg.rsc"
+"$(EPOCROOT)epoc32\release\armv5\urel\IEEngine.dll"                 		-"!:\sys\bin\IEEngine.dll"
+"$(EPOCROOT)epoc32\release\armv5\urel\IEUtils.dll"                 		-"!:\sys\bin\IEUtils.dll"
+
+;IDL
+"$(EPOCROOT)epoc32\release\armv5\urel\IEBgps.dll"                 		    -"!:\sys\bin\IEBgps.dll"
+"$(EPOCROOT)epoc32\release\armv5\urel\IEBgpClient.dll"                 	-"!:\sys\bin\IEBgpClient.dll"
+
+"$(EPOCROOT)epoc32\data\z\resource\apps\PhotoBrowser_aif.mif"		            -"!:\resource\apps\PhotoBrowser_aif.mif"
+"$(EPOCROOT)epoc32\data\z\resource\apps\loading.mbm"		                    -"!:\resource\apps\loading.mbm"
+"$(EPOCROOT)epoc32\data\z\resource\apps\shadow.mbm"		                    -"!:\resource\apps\shadow.mbm"
+"$(EPOCROOT)epoc32\data\z\resource\apps\exit.mbm"		                    -"!:\resource\apps\exit.mbm"

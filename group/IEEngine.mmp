@@ -1,0 +1,121 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+//#include <domain/osextensions/platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+
+
+#ifdef __WINS__
+    #undef _S60_5x_ACCELEROMETER_
+    #undef _S60_3x_ACCELEROMETER_
+    #undef _ACCELEROMETER_SUPPORTED_
+#else
+    #define _ACCELEROMETER_SUPPORTED_
+#ifdef __S60_50__
+    #define _S60_5x_ACCELEROMETER_
+#else
+    #define _S60_3x_ACCELEROMETER_
+#endif
+#endif
+
+
+// using relative paths for sourcepath and user includes
+// exports are unfrozen
+
+#include "UidList.txt"
+
+TARGET        IEEngine.dll
+TARGETTYPE    dll
+UID           0xE000008d IEEngine_UID3
+
+#ifdef TUBE_PR1
+CAPABILITY		UserEnvironment ReadDeviceData ReadUserData WriteUserData LocalServices
+#else
+CAPABILITY		UserEnvironment ReadUserData WriteUserData LocalServices
+#endif
+
+//VENDORID 0x70000001
+VENDORID 0
+
+EPOCHEAPSIZE 0x10000	0x5000000
+
+SOURCEPATH    ..\EngSrc
+SOURCE        IEEngineImp.cpp
+SOURCE		    IEBitmapLoader.cpp
+SOURCE		    IEFileLoader.cpp
+#ifdef IMAGE_EDITOR
+#endif
+SOURCE		    IEImageDecoder.cpp
+SOURCE		    IEImageEncoder.cpp IEImageFinder.cpp IEThreadEngine.cpp 
+SOURCE		    ImageMonitorAO.cpp
+SOURCE 			IEBgpsController.cpp 
+SOURCE 			FileSystemMonitorAO.cpp
+SOURCE IEImageList.cpp
+
+#ifdef _ACCELEROMETER_SUPPORTED_
+SOURCE			  IESensorMonitor.cpp
+SOURCE 			  IESensorDataFilter.cpp
+#endif
+
+USERINCLUDE   ..\EngInc
+USERINCLUDE   ..\Common\inc
+SYSTEMINCLUDE \epoc32\include
+SYSTEMINCLUDE \epoc32\include\internal 
+SYSTEMINCLUDE \epoc32\include\icl
+// new S60 5.0 header include path
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY       	  euser.lib
+LIBRARY       	  efsrv.lib
+LIBRARY			  fbscli.lib
+LIBRARY			  imageconversion.lib
+//LIBRARY			  IclExtJpegApi.lib
+//LIBRARY			  exifutility.lib
+LIBRARY			  jpegexifplugin.lib 
+LIBRARY				cone.lib 
+
+
+#ifdef _S60_3x_ACCELEROMETER_
+//LIBRARY				RRSensorApi.lib // Non-public library
+#endif
+
+#ifdef _S60_5x_ACCELEROMETER_
+LIBRARY				SensrvClient.lib// Non-public library
+LIBRARY				SensrvUtil.lib// Non-public library
+#endif
+
+
+//STATICLIBRARY     idlimageprocessing.lib
+//LIBRARY       		idlimageprocessing.lib
+//LIBRARY         	libc.lib
+
+LIBRARY 			PlatformEnv.lib // platform environment, paths
+LIBRARY 			bitgdi.lib
+LIBRARY 			CommonEngine.lib
+LIBRARY 			eikcore.lib
+LIBRARY 			BitmapTransforms.lib
+LIBRARY 			bafl.lib 
+LIBRARY 			IEBgpClient.lib//TN client
+LIBRARY 			IEUtils.lib
+LIBRARY 			hal.lib
+LIBRARY 			exiflib.lib
+LIBRARY 		  estor.lib 
+LIBRARY 	      oommonitor.lib
+
+nostrictdef
+
+EXPORTUNFROZEN
+
