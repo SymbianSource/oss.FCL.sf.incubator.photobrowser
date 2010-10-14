@@ -1,0 +1,924 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+//  RESOURCE IDENTIFIER
+NAME    VIEW // 4 letter ID
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include "Imagic.hrh"
+#include "PhotoBrowser.rls"
+
+//for HUI
+#include <appinfo.rh>
+
+#ifdef EKA2
+    #include <appinfo.rh>
+#endif
+
+
+//  RESOURCE DEFINITIONS
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf="PhotoBrowser"; }
+
+RESOURCE EIK_APP_INFO
+    {
+    //status_pane = r_Imagic_status_pane;
+    }
+
+
+//Resource definition for "No images" error case
+RESOURCE DIALOG r_no_images_dialog
+    {
+    flags = EGeneralQueryFlags;
+//    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+            buttons = R_AVKON_SOFTKEYS_EXIT  ;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationQueryLayout;
+                label = STRING_r_no_images_con_label_text;
+               // bmpfile =  ;
+               // bmpid =  ;
+               // bmpmask = ;
+                };
+            }
+        };
+    }
+
+//Resource definition for "Cannot delete file" error case
+RESOURCE DIALOG r_cannot_delete_dialog
+    {
+    flags = EGeneralQueryFlags;
+            buttons = R_AVKON_SOFTKEYS_BACK;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationQueryLayout;
+                label = STRING_r_cannot_delete_con_label_text;
+               // bmpfile =  ;
+               // bmpid =  ;
+               // bmpmask = ;
+                };
+            }
+        };
+    }
+
+
+
+//----------------------------------------------------
+//
+//    r_Imagic_HUIviewRotate
+//    Resource definition for View Rotate
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_Imagic_HUIviewRotate
+    {
+    hotkeys=r_Imagic_hotkeys;
+    menubar=r_Imagic_menubar_HUIviewRotate;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    //cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_menubar_viewRotate
+//    Menubar for ViewRotate
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_Imagic_menubar_HUIviewRotate
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_Imagic_app_menu; txt="App"; },
+        MENU_TITLE { menu_pane=r_Imagic_HUIviewRotate_menu; txt="View"; }
+        //MENU_TITLE {menu_pane = r_HuiSimpleImage_menu;}
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewRotate_menu
+//    MenuPane and its Items for View Rotate
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_HUIviewRotate_menu
+    {
+    items=
+        {
+        MENU_ITEM { command=EImagicCmdViewRotateCmd1; txt = qtn_viewRotate_option_item1; },
+        MENU_ITEM { command=EImagicCmdViewRotateCmd2; txt = qtn_viewRotate_option_item2; }
+        };
+    }
+
+
+/////////////////////////////////////////////////////////////////
+// ---------------------------------------------------------------------------- 
+//
+// r_imagic_localisable_app_info
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE LOCALISABLE_APP_INFO r_imagic_localisable_app_info
+    {
+    short_caption = qtn_app_caption_string;
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        //caption = STRING_hewb_caption_string;
+        caption = qtn_app_caption_string;
+        
+        number_of_icons = 1;
+        icon_file = "\\resource\\apps\\PhotoBrowser_aif.mif";
+        };
+    }
+
+
+// ----------------------------------------------------------------------------
+//
+// r_saving_note
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_starting_application_dialog
+  {
+  flags = EAknWaitNoteFlags;
+  items =
+    {
+    DLG_LINE
+      {
+      type = EAknCtNote;
+      id = ESavingNote;
+      control = AVKON_NOTE
+        {
+        layout = EWaitLayout;
+        singular_label = STRING_r_starting_application_dialog;
+        imagefile = "";
+        imageid = EMbmAvkonQgn_note_progress;
+        imagemask = EMbmAvkonQgn_note_progress_mask;
+        animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+        };
+      }
+    };
+  }
+
+// ----------------------------------------------------------------------------
+//
+// r_saving_note
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_saving_note
+  {
+  flags = EAknWaitNoteFlags;
+  //flags = EAknWaitNoteFlags | EEikDialogFlagNoUserExit;
+  //flags = EAknWaitNoteFlags | EEikDialogFlagNoUserExit;
+  //flags = EAknWaitNoteFlags | EEikDlgItemNonFocusing |EEikDialogFlagNoDrag |EEikDialogFlagModeless |EEikDialogFlagNoUserExit;
+  //buttons = R_AVKON_SOFTKEYS_CANCEL;
+  items =
+    {
+    DLG_LINE
+      {
+      type = EAknCtNote;
+      id = ESavingNote;
+      control = AVKON_NOTE
+        {
+        layout = EWaitLayout;
+        singular_label = STRING_r_saving_dialog;
+        imagefile = "";
+        imageid = EMbmAvkonQgn_note_progress;
+        imagemask = EMbmAvkonQgn_note_progress_mask;
+        animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+        };
+      }
+    };
+  }
+
+
+//Resource definition for   saving image.
+RESOURCE DIALOG r_saving_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+  
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationQueryLayout;
+                label = STRING_r_saving_file;
+               // bmpfile =  ;
+               // bmpid =  ;
+               // bmpmask = ;
+                };
+            }
+        };
+    }
+
+//Resource definition for   delete image.
+RESOURCE DIALOG r_delete_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+  
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationQueryLayout;
+                label = STRING_r_delete_file;
+                };
+            }
+        };
+    }
+
+//Resource definition for   delete image.
+RESOURCE DIALOG r_add_face_manually_query
+    {
+    flags = EGeneralQueryFlags;
+    //buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+  
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY 
+                {
+                layout = EConfirmationQueryLayout;
+                label = STRING_r_add_face_manually;
+                };
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+// r_processing_note
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_processing_note
+  {
+  flags = EAknWaitNoteFlags;
+  //flags = EAknWaitNoteFlags | EEikDlgItemNonFocusing |EEikDialogFlagNoDrag |EEikDialogFlagModeless |EEikDialogFlagNoUserExit;
+  //buttons = R_AVKON_SOFTKEYS_CANCEL;
+  items =
+    {
+    DLG_LINE
+      {
+      type = EAknCtNote;
+      id = ESavingNote;
+      control = AVKON_NOTE
+        {
+        layout = EWaitLayout;
+        singular_label = STRING_r_processing_dialog;
+        imagefile = "";
+        imageid = EMbmAvkonQgn_note_progress;
+        imagemask = EMbmAvkonQgn_note_progress_mask;
+        animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+        };
+      }
+    };
+  }
+
+// ----------------------------------------------------------------------------
+//
+// r_loading_note
+// 
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_loading_note
+  {
+  //flags = EAknWaitNoteFlags;
+  flags = EAknWaitNoteFlags | EEikDialogFlagModeless |EEikDialogFlagNoUserExit;   
+  //buttons = R_AVKON_SOFTKEYS_CANCEL;
+  items =
+    {
+    DLG_LINE
+      {
+      type = EAknCtNote;
+      id = ESavingNote;
+      control = AVKON_NOTE
+        {
+        layout = EWaitLayout;
+        singular_label = STRING_r_loading_dialog;
+        plural_label = STRING_r_laoding_dialog_plural;
+        
+        imagefile = "";
+        imageid = EMbmAvkonQgn_note_progress;
+        imagemask = EMbmAvkonQgn_note_progress_mask;
+        animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+        };
+      }
+    };
+  }
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_image_editor_error1_text 
+    { 
+    buf=STRING_r_image_editor_error1_text; 
+    //cba=EEikBidOk ;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_image_editor_no_rotation_needed_text 
+    { 
+    buf=STRING_r_image_editor_no_rotation_needed_text;
+    //cba=EEikBidOk ;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_image_editor_no_faces_found_text 
+    { 
+    buf=STRING_r_image_editor_no_faces_found_text;
+    //cba=EEikBidOk ;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+//RESOURCE TBUF32 r_image_add_new_face_help_text 
+RESOURCE TBUF256 r_image_add_new_face_help_text
+    { 
+    buf=STRING_r_image_add_new_face_help_text;
+    //cba=EEikBidOk ;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_image_face_cropping_complete_text 
+    { 
+    buf=STRING_r_image_face_cropping_complete_text;
+    //cba=EEikBidOk ;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_file_saved_as_text 
+    { 
+    buf=STRING_r_file_saved_as_text; 
+    //cba=EEikBidOk ;
+    }
+
+
+
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_file_name_text 
+    { 
+    buf=STRING_r_file_name_text; 
+    //cba=EEikBidOk ;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_error_in_saving_text 
+    { 
+    buf=STRING_r_error_in_saving_text; 
+    //cba=EEikBidOk ;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_hotkeys
+//    Hotkeys for the application
+//
+//----------------------------------------------------
+//
+RESOURCE HOTKEYS r_Imagic_hotkeys
+    {
+    control=
+        {
+        HOTKEY 
+            { 
+            command=EImagicCmdViewFaceBrowsing; 
+            key='E'; 
+            }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_view
+//    Resource definition for View
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_Imagic_view
+    {
+    hotkeys=r_Imagic_hotkeys;
+    menubar=r_Imagic_menubar_view;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_menubar_view
+//    Menubar for view
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_Imagic_menubar_view
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_Imagic_app_menu; txt="App"; },
+        MENU_TITLE { menu_pane=r_Imagic_view_menu; txt="View"; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_view_menu
+//    Menupane for view, includes the menu item
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_view_menu
+    {
+    items=
+        {
+        MENU_ITEM { command=EImagicCmdViewCmd1; txt = qtn_view_option_item1; },
+        MENU_ITEM { command=EImagicCmdViewCmd2; txt = qtn_view_option_item2; },
+        MENU_ITEM { command=EImagicCmdViewCmd3; txt = qtn_view_option_item3; },
+        MENU_ITEM { command=EImagicCmdViewCmd4; txt = qtn_view_option_item4; },
+        MENU_ITEM { command=EImagicCmdViewCmd5; txt = qtn_view_option_item5; }
+        };
+    }
+
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewBrowser
+//    Resource definition for ViewBrowser
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_Imagic_viewBrowser
+    {
+    hotkeys=r_Imagic_hotkeys;
+    menubar=r_Imagic_menubar_viewBrowser;
+    //cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_menubar_viewBrowser
+//    Menubar for view Browser
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_Imagic_menubar_viewBrowser
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_Imagic_app_menu; txt="App"; },
+        MENU_TITLE { menu_pane=r_Imagic_viewBrowser_menu; txt="View"; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewBrowser_menu
+//    Menupane for view Browser, includes the menu item
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_viewBrowser_menu
+    {
+    items=
+        {
+        MENU_ITEM 
+            { 
+            command= EImagicCmdViewFaceBrowsing; 
+            txt = STRING_r_image_facebrowing; 
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserFaceCropping;       
+            txt = qtn_viewBrowser_option_item15;
+            },
+        MENU_ITEM 
+            {
+            command= EImagicCmdViewEdit;   
+          //  cascade = r_advanced_editing_mode_options;  
+            txt = qtn_viewBrowser_option_item8; 
+            },
+        MENU_ITEM 
+                { 
+                command = EImagicCmdViewBrowserSend;       
+                txt = qtn_viewBrowser_option_item18;
+                },
+        MENU_ITEM 
+            { 
+            command= ECmdRotateImage; 
+            cascade = r_rotate_options;              
+            txt = qtn_viewBrowser_option_item7; 
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserRemoveFace;       
+            txt = qtn_viewBrowser_option_item12;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserAddNewFace;       
+            txt = qtn_viewBrowser_option_item13;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserAddAsThisNewFace;       
+            txt = qtn_viewBrowser_option_item14;
+            },  
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserCropping;       
+            txt = qtn_viewBrowser_option_item2;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserShowImageInfo; 
+            txt = STRING_r_image_info;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserDelete;       
+            txt = qtn_viewBrowser_option_item11;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserGridModeFolder;       
+            txt = qtn_viewBrowser_option_item16a;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserGridModeTime;       
+            txt = qtn_viewBrowser_option_item16b;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserGridModePeople;       
+            txt = qtn_viewBrowser_option_item16c;
+            },
+        MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserHelp; 
+            txt = STRING_r_help;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_advanced_editing_mode_options
+{
+    items =
+    {
+        MENU_ITEM{command = EImagicCmdViewBrowserCmd1; txt = qtn_viewBrowser_option_item1;},
+        MENU_ITEM{command = EImagicCmdViewBrowserCropping; txt = qtn_viewBrowser_option_item2;},
+        //MENU_ITEM{command = EImagicCmdViewBrowserDrawFaces; txt = qtn_viewBrowser_option_item3;},
+        MENU_ITEM{command = EImagicCmdViewBrowserDelete; txt = qtn_viewBrowser_option_item11;}
+    };
+}
+
+RESOURCE MENU_PANE r_rotate_options
+{
+    items =
+        {
+        /*MENU_ITEM 
+            { 
+            command = EImagicCmdViewBrowserDrawFaces;       
+            txt = qtn_viewBrowser_option_item3;
+            },*/
+        MENU_ITEM
+            {
+            command = EImagicCmdViewBrowserRotateRight; 
+            txt = qtn_viewBrowser_option_item4;
+            },
+        MENU_ITEM
+            {
+            command = EImagicCmdViewBrowserRotateLeft; 
+            txt = qtn_viewBrowser_option_item9;
+            }
+        
+            
+       // MENU_ITEM{command = EImagicCmdViewBrowserCmd5; txt = qtn_viewBrowser_option_item5;},
+        //MENU_ITEM{command = EImagicCmdViewBrowserCmd6; txt = qtn_viewBrowser_option_item6;}, //Album mode not implemented yet
+       // MENU_ITEM{command = EImagicCmdViewBrowserCmd10; txt = qtn_viewBrowser_option_item10;}
+        
+        };
+}
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewWizardEdit
+//    Resource definition for View WizardEdit
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_Imagic_viewWizardEdit
+    {
+    hotkeys=r_Imagic_hotkeys;
+    menubar=r_Imagic_menubar_viewWizardEdit;
+    //cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_menubar_viewWizardEdit
+//    Menubar for ViewWizardEdit
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_Imagic_menubar_viewWizardEdit
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_Imagic_app_menu; txt="App"; },
+        MENU_TITLE { menu_pane=r_Imagic_viewWizardEdit_menu; txt="View"; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewWizardEdit_menu
+//    MenuPane and its Items for View WizardEdit
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_viewWizardEdit_menu
+    {
+    items=
+        {
+       // MENU_ITEM { command=EImagicCmdViewWizardEditCmd1; txt = qtn_viewWizardEdit_option_item1; },
+        MENU_ITEM { command=EImagicCmdViewWizardEditCmd2; txt = qtn_viewWizardEdit_option_item2; },
+        MENU_ITEM { command=EImagicCmdViewWizardEditCmd3; txt = qtn_viewWizardEdit_option_item3; },
+        MENU_ITEM { command=EImagicCmdViewWizardEditCmd4; txt = qtn_viewWizardEdit_option_item4; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewCrop
+//    Resource definition for View Crop
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_Imagic_viewCrop
+    {
+    hotkeys=r_Imagic_hotkeys;
+    menubar=r_Imagic_menubar_viewCrop;
+    //cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_menubar_viewCrop
+//    Menubar for ViewCrop
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_Imagic_menubar_viewCrop
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_Imagic_app_menu; txt="App"; },
+        MENU_TITLE { menu_pane=r_Imagic_viewCrop_menu; txt="View"; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewCrop_menu
+//    MenuPane and its Items for View Crop
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_viewCrop_menu
+    {
+    items=
+        {
+      //  MENU_ITEM { command=EImagicCmdViewCropCmd1; txt = qtn_viewCrop_option_item1; },
+        MENU_ITEM { command=EImagicCmdViewCropCmd2; txt = qtn_viewCrop_option_item2; },
+        //MENU_ITEM { command=EImagicCmdViewCropCmd3; txt = qtn_viewCrop_option_item3; },
+        MENU_ITEM { command=EImagicCmdViewCropCmd4; txt = qtn_viewCrop_option_item4; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewRotate
+//    Resource definition for View Rotate
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_Imagic_viewRotate
+    {
+    hotkeys=r_Imagic_hotkeys;
+    menubar=r_Imagic_menubar_viewRotate;
+    //cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_menubar_viewRotate
+//    Menubar for ViewRotate
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_Imagic_menubar_viewRotate
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_Imagic_app_menu; txt="App"; },
+        MENU_TITLE { menu_pane=r_Imagic_viewRotate_menu; txt="View"; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_viewRotate_menu
+//    MenuPane and its Items for View Rotate
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_viewRotate_menu
+    {
+    items=
+        {
+       // MENU_ITEM { command=EImagicCmdViewRotateCmd1; txt = qtn_viewRotate_option_item1; },
+        MENU_ITEM { command=EImagicCmdViewRotateCmd2; txt = qtn_viewRotate_option_item2; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//    r_Imagic_app_menu
+//    MenuPane and MenuItems for the application
+//    This will show in all views' menu
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_Imagic_app_menu
+    {
+    items=
+        {
+        MENU_ITEM { command=EAknCmdExit; txt="Exit"; }
+        };
+    }
+
+
+RESOURCE DIALOG r_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+  //  buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EImagicWaitDialogNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = STRING_r_imagic_wait_prompt;
+                plural_label = STRING_r_imagic_wait_prompt1;
+                
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_wait_note_end
+    {
+    flags = EAknWaitNoteFlags;
+  //  buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EImagicWaitDialogNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = STRING_r_imagic_wait_prompt_end;
+                   
+                };
+            }
+        };
+    }
+
+#ifdef EKA2
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+//RESOURCE TBUF32 r_Imagic_caption_string { buf=qtn_app_caption_string; }
+
+// ----------------------------------------------------------------------------
+//
+// r_localisable_app_info
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_localisable_app_info
+    {
+    short_caption = qtn_app_short_caption_string;
+    caption_and_icon =
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_app_caption_string;
+
+        number_of_icons = 1;
+	   	icon_file = "\\resource\\apps\\PhotoBrowser_aif.mif";
+	    };
+    }
+#endif
+
+
+// End of File

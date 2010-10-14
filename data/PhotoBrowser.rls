@@ -1,0 +1,133 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+
+// LOCALISATION STRINGS
+
+///////////////////////////////////////////////////////////////////
+
+
+//Notes
+rls_string STRING_r_imagic_wait_prompt_end "TN Generation Completed "
+rls_string STRING_r_laoding_dialog_plural "Saving application data. Please wait!"
+rls_string STRING_r_imagic_wait_prompt "Progressing TN Generation "
+rls_string STRING_r_imagic_wait_prompt1 "Progressing"
+rls_string STRING_r_delete_file "Delete file"
+rls_string STRING_r_add_face_manually "Add face manually"
+rls_string STRING_r_saving_file "Save file"
+rls_string STRING_r_no_images_con_label_text "No photos found in Images folder! Close application?"
+rls_string STRING_r_cannot_delete_con_label_text "Image cannot be deleted!"
+rls_string STRING_r_saving_dialog "Saving file"
+rls_string STRING_r_starting_application_dialog "Starting Application"
+rls_string STRING_r_processing_dialog "Processing Image"
+rls_string STRING_r_loading_dialog "Loading Image"
+rls_string STRING_r_file_saved_as_text "Image Saved as %S"
+rls_string STRING_r_image_editor_no_rotation_needed_text "No Rotation Done!"
+rls_string STRING_r_image_editor_no_faces_found_text "No faces found!"
+rls_string STRING_r_image_add_new_face_help_text "Use Zooming and 5-way rocker key to locate face and select Add as New Face"
+rls_string STRING_r_image_face_cropping_complete_text "Face Cropping Complete"
+rls_string STRING_r_image_facebrowing "Face Browsing"
+rls_string STRING_r_image_info "View details"
+rls_string STRING_r_file_name_text "Image name: %S"
+rls_string STRING_r_help "Help"
+
+rls_string STRING_r_jan "Jan"
+rls_string STRING_r_feb "Feb"
+rls_string STRING_r_mar "Marc"
+rls_string STRING_r_apr "April"
+rls_string STRING_r_may "May"
+rls_string STRING_r_jun "June"
+rls_string STRING_r_jul "July"
+rls_string STRING_r_aug "Aug"
+rls_string STRING_r_sep "Sep"
+rls_string STRING_r_oct "Oct"
+rls_string STRING_r_nov "Nov"
+rls_string STRING_r_dec "Dec"
+
+
+rls_string STRING_Imagic_loc_resource_file_1 "\\resource\\apps\\PhotoBrowser"
+
+//Error messages
+rls_string STRING_r_image_editor_error1_text "Feature %d, Error: %d"
+//rls_string STRING_r_image_editor_error1_text "Image dimensions not correct"
+rls_string STRING_r_error_in_saving_text "Error in Saving File: %d"
+
+
+// Commands in Viev
+rls_string qtn_view_option_item1 "Wizard Editing Mode"
+rls_string qtn_view_option_item2 "Browser View.."
+rls_string qtn_view_option_item3 "Crop"
+rls_string qtn_view_option_item4 "Rotate"
+rls_string qtn_view_option_item5 "Zoom"
+
+// Commands in Viev Browser
+rls_string qtn_viewBrowser_option_item1 "Wizard Editing Mode"
+rls_string qtn_viewBrowser_option_item2 "Crop"
+rls_string qtn_viewBrowser_option_item3 "Faces/Images view"
+rls_string qtn_viewBrowser_option_item4 "Right"
+rls_string qtn_viewBrowser_option_item9 "Left"
+rls_string qtn_viewBrowser_option_item5 "Square Grid"
+rls_string qtn_viewBrowser_option_item6 "Album"
+rls_string qtn_viewBrowser_option_item7 "Rotate"
+rls_string qtn_viewBrowser_option_item8 "Editing"
+rls_string qtn_viewBrowser_option_item10 "Wave Effect On/Off"
+rls_string qtn_viewBrowser_option_item11 "Delete"
+rls_string qtn_viewBrowser_option_item12 "Remove face"
+rls_string qtn_viewBrowser_option_item13 "Add Face"
+rls_string qtn_viewBrowser_option_item14 "Add as new face"
+rls_string qtn_viewBrowser_option_item15 "Face cropping"
+rls_string qtn_viewBrowser_option_item16a "Folder view"
+rls_string qtn_viewBrowser_option_item16b "Time view"
+rls_string qtn_viewBrowser_option_item16c "People view"
+rls_string qtn_viewBrowser_option_item18 "Send"
+
+// Commands in Viev WizardEdit
+rls_string qtn_viewWizardEdit_option_item1 "Back to Image Browser"
+rls_string qtn_viewWizardEdit_option_item2 "add something.."
+rls_string qtn_viewWizardEdit_option_item3 "add something.."
+rls_string qtn_viewWizardEdit_option_item4 "Save"
+
+// Commands in Viev Crop
+//rls_string qtn_viewCrop_option_item1 "Back to Image Browser"
+rls_string qtn_viewCrop_option_item2 "Crop"
+//rls_string qtn_viewCrop_option_item3 "add something.."
+rls_string qtn_viewCrop_option_item4 "Save"
+
+// Commands in Viev Rotate
+rls_string qtn_viewRotate_option_item1 "Back to Image Browser"
+rls_string qtn_viewRotate_option_item2 "Save"
+
+// Commands in HUIViev Rotate
+rls_string qtn_HUIviewRotate_option_item1 "Back to Image Browser"
+rls_string qtn_HUIviewRotate_option_item2 "Save"
+           
+
+
+
+// Name of the view 1 tab.
+//rls_string qtn_view1_tab "View1"
+
+// Name of the view 2 tab.
+//rls_string qtn_view2_tab "View2"
+
+// example captions strings for app
+rls_string qtn_app_caption_string "Photo Browser"
+
+rls_string qtn_app_short_caption_string "Photo Browser"
+
+
+// End of File
