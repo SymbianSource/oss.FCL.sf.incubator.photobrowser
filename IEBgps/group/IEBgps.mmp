@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+//#include <domain/osextensions/platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+
+#include "UidList.txt"
+
+TARGET        IEBgps.dll
+TARGETTYPE    dll
+UID           0xA000008d IEBgps_UID3
+
+#ifdef TUBE_PR1
+CAPABILITY		UserEnvironment ReadDeviceData ReadUserData WriteUserData LocalServices
+#else
+CAPABILITY		UserEnvironment ReadUserData WriteUserData LocalServices
+#endif
+VENDORID 0
+
+EPOCHEAPSIZE 0x10000 0x3000000
+EPOCSTACKSIZE	0x10000
+
+SOURCEPATH    ..\src
+SOURCE        IEBgpServer.cpp
+SOURCE	      IEBgpServerSession.cpp
+SOURCE  	  IETNGenerator.cpp IEFaceBrowser.cpp IEImageDecoder.cpp IEImageEncoder.cpp
+//SOURCE		  FaceRecognitionEngine.cpp
+
+USERINCLUDE   ..\inc
+USERINCLUDE   ..\..\Common\inc
+USERINCLUDE   ..\..\EngInc
+SYSTEMINCLUDE \Epoc32\include
+SYSTEMINCLUDE   \epoc32\include\stdapis
+SYSTEMINCLUDE   \epoc32\include\icl
+
+// new S60 5.0 header include path
+MW_LAYER_SYSTEMINCLUDE
+ 
+/* Image DL dependent */
+SYSTEMINCLUDE   \epoc32\include\ImagingDL\API
+SYSTEMINCLUDE   \epoc32\include\ImagingDL\Features
+
+LIBRARY       euser.lib
+LIBRARY	      efsrv.lib
+LIBRARY 	  imageconversion.lib  
+LIBRARY 	  fbscli.lib 
+LIBRARY       hal.lib
+LIBRARY       bitmaptransforms.lib 
+LIBRARY 	  exiflib.lib
+LIBRARY		  IclExtJpegApi.lib 
+LIBRARY       bafl.lib
+LIBRARY		  IEUtils.lib
+
+EXPORTUNFROZEN 
+
+EPOCALLOWDLLDATA
+
+nostrictdef

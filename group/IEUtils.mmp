@@ -50,13 +50,10 @@ LIBRARY       euser.lib
 LIBRARY       efsrv.lib
 LIBRARY			  fbscli.lib
 LIBRARY			  imageconversion.lib
-//LIBRARY			  IclExtJpegApi.lib
-//LIBRARY			  exifutility.lib
-//LIBRARY			  jpegexifplugin.lib 
+LIBRARY			  IclExtJpegApi.lib
+LIBRARY			  exifutility.lib
+LIBRARY			  jpegexifplugin.lib 
 LIBRARY				cone.lib 
-
-//STATICLIBRARY     idlimageprocessing.lib
-//LIBRARY         	libc.lib
 
 LIBRARY 			PlatformEnv.lib // platform environment, paths
 LIBRARY 			bitgdi.lib

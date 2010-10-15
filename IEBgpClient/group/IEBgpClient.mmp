@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors: Juha Kauppinen, Mika Hokkanen
+* 
+* Description: Photo Browser
+*
+*/
+
+#include "UidList.txt"
+
+TARGET        IEBgpClient.dll
+TARGETTYPE    dll
+UID           0xE000008d IEBgpsclient_UID3
+
+#ifdef TUBE_PR1
+CAPABILITY		UserEnvironment ReadDeviceData ReadUserData WriteUserData LocalServices
+#else
+CAPABILITY		UserEnvironment ReadUserData WriteUserData LocalServices
+#endif
+
+EPOCHEAPSIZE 0x10000 0x8000000
+
+VENDORID 0
+
+SOURCEPATH    ..\src
+SOURCE        IEImageProcessingImp.cpp
+SOURCE		  	IEBgpClient.cpp
+
+USERINCLUDE   ..\inc
+USERINCLUDE   ..\..\common\inc
+USERINCLUDE   ..\..\EngInc
+SYSTEMINCLUDE \Epoc32\include
+
+LIBRARY       euser.lib
+LIBRARY 			IEBgps.lib
+ 
+// EXPORTUNFROZEN 
+nostrictdef
+
+SOURCE IEImagicGBPSAO.cpp
+
+EXPORTUNFROZEN

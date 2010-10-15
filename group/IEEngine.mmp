@@ -82,8 +82,8 @@ LIBRARY       	  euser.lib
 LIBRARY       	  efsrv.lib
 LIBRARY			  fbscli.lib
 LIBRARY			  imageconversion.lib
-//LIBRARY			  IclExtJpegApi.lib
-//LIBRARY			  exifutility.lib
+LIBRARY			  IclExtJpegApi.lib
+LIBRARY			  exifutility.lib
 LIBRARY			  jpegexifplugin.lib 
 LIBRARY				cone.lib 
 
